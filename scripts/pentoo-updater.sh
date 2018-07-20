@@ -4,36 +4,36 @@ env-update
 
 check_profile () {
   if [ -L "/etc/portage/make.profile" ] && [ ! -e "/etc/portage/make.profile" ]; then
-    failure="0"
+    local failure="0"
     #profile is broken, read the symlink then try to reset it back to what it should be
     printf "Your profile is broken, attempting repair...\n"
-    desired="pentoo:$(readlink /etc/portage/make.profile | cut -d'/' -f 8-)"
+    local desired="pentoo:$(readlink /etc/portage/make.profile | cut -d'/' -f 8-)"
     if ! eselect profile set "${desired}"; then
       #profile failed to set, try hard to set the right one
       #first set arch
-      arch=$(uname -m)
+      local arch=$(uname -m)
       if [ "${arch}" = "i686" ]; then
-        ARCH="x86"
+        local ARCH="x86"
       elif [ "${arch}" = "x86_64" ]; then
-        ARCH="amd64"
+        local ARCH="amd64"
       else
         failure=1
       fi
       #then check if we are hard
       if gcc -v 2>&1 | grep -q Hardened; then
-        hardening="hardened"
+        local hardening="hardened"
       else
-        hardening="default"
+        local hardening="default"
       fi
       #last check binary
       if echo "${desired}" | grep -q binary; then
-        binary="/binary"
+        local binary="/binary"
       else
-        binary=""
+        local binary=""
       fi
       if [ "${failure}" = "0" ]; then
         if ! eselect profile set pentoo:pentoo/${hardening}/linux/${ARCH}${binary}; then
-          failure="1"
+          local failure="1"
         fi
       fi
     fi
@@ -48,23 +48,23 @@ check_profile () {
 }
 
 update_kernel() {
-  arch=$(uname -m)
+  local arch=$(uname -m)
   if [ "${arch}" = "i686" ]; then
-    ARCH="x86"
+    local ARCH="x86"
   elif [ "${arch}" = "x86_64" ]; then
-    ARCH="amd64"
+    local ARCH="amd64"
   else
     printf "Arch ${arch} isn't supported for automatic kernel updating, skipping...\n."
     return 1
   fi
 
-  bestkern="$(qlist $(portageq best_version / pentoo-sources 2> /dev/null) | head -n1 | awk -F'/' '{print $4}' | cut -d'-' -f 2-)"
+  local bestkern="$(qlist $(portageq best_version / pentoo-sources 2> /dev/null) | head -n1 | awk -F'/' '{print $4}' | cut -d'-' -f 2-)"
   if [ -z "${bestkern}" ]; then
     printf "Failed to find pentoo-sources installed, is this a Pentoo system?\n"
     return 1
   fi
 
-  currkern="$(uname -r)"
+  local currkern="$(uname -r)"
   if [ "${currkern}" != "${bestkern}" ]; then
     printf "Currently running kernel ${currkern} is out of date.\n"
     if [ -x "/usr/src/linux-${bestkern}/vmlinux" ]; then
@@ -72,8 +72,8 @@ update_kernel() {
     else
       printf "Updated kernel ${bestkern} available, building...\n"
       #first we check for a config
-      upstream_config="https://raw.githubusercontent.com/pentoo/pentoo-livecd/master/livecd/${ARCH}/kernel/config-${bestkern%-pentoo}"
-      local_config="/usr/src/linux-${bestkern}/.config"
+      local upstream_config="https://raw.githubusercontent.com/pentoo/pentoo-livecd/master/livecd/${ARCH}/kernel/config-${bestkern%-pentoo}"
+      local local_config="/usr/src/linux-${bestkern}/.config"
       if [ -r "${local_config}" ]; then
         printf "Checking for updated kernel config...\n"
         curl --fail "${upstream_config}" -z "${local_config}" -o "${local_config}"
@@ -91,7 +91,7 @@ update_kernel() {
         ln -s "linux-${bestkern}" /usr/src/linux
       fi
       #then we set genkernel options as needed
-      genkernelopts="--no-mrproper --disklabel --microcode --compress-initramfs-type=xz --bootloader=grub2"
+      local genkernelopts="--no-mrproper --disklabel --microcode --compress-initramfs-type=xz --bootloader=grub2"
       if grep -q btrfs /etc/fstab || grep -q btrfs /proc/cmdline; then
         genkernelopts="${genkernelopts} --btrfs"
       fi
