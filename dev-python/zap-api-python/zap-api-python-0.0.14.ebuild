@@ -10,7 +10,8 @@ inherit distutils-r1
 
 DESCRIPTION="OWASP ZAP Python API"
 HOMEPAGE="https://github.com/zaproxy/zap-api-python"
-SRC_URI="https://files.pythonhosted.org/packages/source/p/python-owasp-zap-v2/python-owasp-zap-${MY_PV}.tar.gz"
+# SRC_URI="https://files.pythonhosted.org/packages/source/p/python-owasp-zap-v2/python-owasp-zap-${MY_PV}.tar.gz"
+SRC_URI="https://github.com/zaproxy/${PN}/releases/download/${PV}/python-owasp-zap-${MY_PV}.tar.gz"
 
 LICENSE="Apache-2.0"
 SLOT="0"
