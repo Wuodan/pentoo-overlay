@@ -1,14 +1,13 @@
-# Copyright 1999-2010 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $
 
-EAPI=2
+EAPI=6
 
 inherit toolchain-funcs
 
 DESCRIPTION="cisco internal bruteforcer"
 HOMEPAGE="http://packetstormsecurity.org/cisco/enabler.c"
-SRC_URI="http://packetstormsecurity.org/cisco/enabler.c"
+SRC_URI="https://dl.packetstormsecurity.net/cisco/enabler.c"
 
 LICENSE="as-is"
 SLOT="0"
@@ -18,12 +17,14 @@ IUSE=""
 DEPEND=""
 RDEPEND="${DEPEND}"
 
+S="${WORKDIR}"
+
 src_unpack() {
 	cp "${DISTDIR}"/enabler.c "${WORKDIR}"/ || die
 }
 
 src_compile() {
-	$(tc-getCC) $CFLAGS enabler.c -o enabler || die
+	$(tc-getCC) $CFLAGS enabler.c -o enabler $LDFLAGS || die
 }
 
 src_install() {
