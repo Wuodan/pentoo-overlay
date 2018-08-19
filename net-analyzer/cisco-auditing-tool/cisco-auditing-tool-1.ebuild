@@ -1,12 +1,11 @@
-# Copyright 1999-2010 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $
 
-EAPI=2
+EAPI=6
 
 DESCRIPTION="Perl script which scans cisco routers for common vulnerabilities."
 HOMEPAGE="http://www.scrypt.net/~g0ne"
-SRC_URI="http://www.packetstormsecurity.org/cisco/CiscoAuditingTool-v${PV}.tar.gz"
+SRC_URI="https://dl.packetstormsecurity.net/cisco/CiscoAuditingTool-v${PV}.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"
@@ -28,4 +27,3 @@ src_install() {
 	doins CAT || die
 	dobin "${FILESDIR}"/CAT || die
 }
-
