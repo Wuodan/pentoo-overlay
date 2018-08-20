@@ -1,5 +1,7 @@
---- Makefile.bak	2010-08-01 23:57:31.057782359 +0200
-+++ Makefile	2010-08-02 00:03:56.841550413 +0200
+diff --git a/Makefile b/Makefile
+index c7ad1d6..68d54f1 100644
+--- a/Makefile
++++ b/Makefile
 @@ -9,8 +9,10 @@
  # 'make ipod' and 'make iphone' will run 'ldid -S' on the files in addition to everything else. 
  
@@ -12,3 +14,35 @@
  
  all: nbquery nbsniff dnsxss dnslogger dnscat dnstest samples_build
  	@echo Compile should be complete
+@@ -68,25 +70,25 @@ clean:
+ 	-cd samples && make clean
+ 
+ nbquery: nbquery.o dns.o buffer.o udp.o tcp.o select_group.o types.o memory.o netbios_types.o
+-	${CC} ${CFLAGS} -o nbquery nbquery.o dns.o buffer.o udp.o tcp.o select_group.o types.o memory.o netbios_types.o ${LIBS}
++	${CC} ${CFLAGS} -o nbquery nbquery.o dns.o buffer.o udp.o tcp.o select_group.o types.o memory.o netbios_types.o ${LIBS} ${LDFLAGS}
+ 
+ nbsniff: nbsniff.o dns.o buffer.o udp.o tcp.o select_group.o types.o memory.o netbios_types.o
+-	${CC} ${CFLAGS} -o nbsniff nbsniff.o dns.o buffer.o udp.o tcp.o select_group.o types.o memory.o netbios_types.o ${LIBS}
++	${CC} ${CFLAGS} -o nbsniff nbsniff.o dns.o buffer.o udp.o tcp.o select_group.o types.o memory.o netbios_types.o ${LIBS} ${LDFLAGS}
+ 
+ #genhash: genhash.o crypto.o types.o memory.o buffer.o
+ #	${CC} ${CFLAGS} -o genhash genhash.o crypto.o types.o memory.o buffer.o ${LIBS}
+ 
+ dnscat: dnscat.o buffer.o tcp.o udp.o select_group.o types.o memory.o dns.o session.o
+-	${CC} ${CFLAGS} ${DNSCATFLAGS} -o dnscat dnscat.o buffer.o tcp.o udp.o select_group.o types.o memory.o dns.o session.o ${LIBS}
++	${CC} ${CFLAGS} ${DNSCATFLAGS} -o dnscat dnscat.o buffer.o tcp.o udp.o select_group.o types.o memory.o dns.o session.o ${LIBS} ${LDFLAGS}
+ 
+ dnsxss: dnsxss.o buffer.o tcp.o udp.o select_group.o types.o memory.o dns.o
+-	${CC} ${CFLAGS} -o dnsxss dnsxss.o buffer.o tcp.o udp.o select_group.o types.o memory.o dns.o ${LIBS}
++	${CC} ${CFLAGS} -o dnsxss dnsxss.o buffer.o tcp.o udp.o select_group.o types.o memory.o dns.o ${LIBS} ${LDFLAGS}
+ 
+ dnstest: dnstest.o buffer.o tcp.o udp.o select_group.o types.o memory.o dns.o
+-	${CC} ${CFLAGS} -o dnstest dnstest.o buffer.o tcp.o udp.o select_group.o types.o memory.o dns.o ${LIBS}
++	${CC} ${CFLAGS} -o dnstest dnstest.o buffer.o tcp.o udp.o select_group.o types.o memory.o dns.o ${LIBS} ${LDFLAGS}
+ 
+ dnslogger: dnslogger.o buffer.o tcp.o udp.o select_group.o types.o memory.o dns.o
+-	${CC} ${CFLAGS} -o dnslogger dnslogger.o buffer.o tcp.o udp.o select_group.o types.o memory.o dns.o ${LIBS}
++	${CC} ${CFLAGS} -o dnslogger dnslogger.o buffer.o tcp.o udp.o select_group.o types.o memory.o dns.o ${LIBS} ${LDFLAGS}
+ 
+ #smbtest: smbtest.o smbclient.o buffer.o udp.o tcp.o select_group.o smb.o nameservice.o crypto.o smb_types.o memory.o types.o 
+ #	${CC} ${CFLAGS} -o smbtest smbtest.o smbclient.o buffer.o udp.o tcp.o select_group.o smb.o nameservice.o crypto.o smb_types.o memory.o types.o ${LIBS}

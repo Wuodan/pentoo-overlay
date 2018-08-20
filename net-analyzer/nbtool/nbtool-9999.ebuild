@@ -3,14 +3,11 @@
 
 EAPI=6
 
-inherit eutils
-
-MY_P=${P/_/}
+inherit eutils git-r3
 
 DESCRIPTION="Some tools for NetBIOS and DNS investigation, attacks, and communication"
 HOMEPAGE="http://www.skullsecurity.org/wiki/index.php/Nbtool"
-# SRC_URI="http://www.skullsecurity.org/downloads/${MY_P}.tgz"
-SRC_URI="https://downloads.skullsecurity.org/${MY_P}.tgz"
+EGIT_REPO_URI="https://github.com/iagox86/${PN}.git"
 
 LICENSE="BSD"
 SLOT="0"
@@ -20,11 +17,10 @@ IUSE=""
 DEPEND=""
 RDEPEND="${DEPEND}"
 
-S=${WORKDIR}/${MY_P}
-
-src_prepare() {
+src_prepare(){
 	# respect CFLAGS and LDFLAGS
-	epatch "${FILESDIR}"/${PN}-makefile.patch || die
+	sed -Ei 's#^\s+\$\{CC\} \$\{CFLAGS\}.* -o .*$#\0 \$\{LDFLAGS\}#' Makefile \
+		|| die 'sed failed'
 	default
 }
 
