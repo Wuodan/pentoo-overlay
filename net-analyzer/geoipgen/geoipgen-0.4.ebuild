@@ -1,14 +1,14 @@
-# Copyright 1999-2010 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $
 
-EAPI=2
+EAPI=6
 
 DESCRIPTION="Generate a list of hostnames based on country"
 HOMEPAGE="http://www.morningstarsecurity.com/research/geoipgen"
-SRC_URI="http://geoipgen.googlecode.com/files/$P.tar.gz"
+# SRC_URI="http://geoipgen.googlecode.com/files/$P.tar.gz"
+SRC_URI="https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/${PN}/${P}.tar.gz"
 
-LICENSE="BSD"
+LICENSE="BSD CC-BY-SA-4.0"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE=""
@@ -21,15 +21,16 @@ RDEPEND="dev-lang/ruby
 src_prepare() {
 	# fix db path
 	sed -i 's|/usr/local/share/|/etc/maxmind/|g' ${PN} || die
+	default
 }
 
 src_install() {
 	dobin ${PN} || die
-	dodoc README CHANGELOG TODO || die
+	dodoc README CHANGELOG TODO
 }
 
 pkg_postinst() {
-	elog "For ${PN} to work you have to download"
-	elog "http://www.maxmind.com/download/geoip/database/GeoIPCountryCSV.zip"
-	elog "save it to /etc/maxmind and unzip it"
+	einfo "For ${PN} to work you have to download"
+	einfo "http://www.maxmind.com/download/geoip/database/GeoIPCountryCSV.zip"
+	einfo "save it to /etc/maxmind and unzip it"
 }
